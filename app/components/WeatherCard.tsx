@@ -4,7 +4,7 @@ import { getIconUrl } from "~/utils";
 type CardProps = {
   temperature: number;
   icon: string;
-  city: string | null;
+  city: string | undefined;
   description: string;
   humidity: number;
   windSpeed: number;

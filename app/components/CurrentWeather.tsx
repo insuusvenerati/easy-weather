@@ -3,7 +3,7 @@ import { getIconUrl } from "~/utils";
 type CurrentWeatherProps = {
   temperature: number | undefined;
   icon: string | undefined;
-  city: string | null;
+  city: string | undefined;
 };
 
 export const CurrentWeather = ({ temperature, icon, city }: CurrentWeatherProps) => {

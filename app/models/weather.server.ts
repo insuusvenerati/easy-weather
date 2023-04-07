@@ -19,7 +19,12 @@ export const getWeather = async (location: LocationData) => {
   const response = await fetch(
     `${process.env.API_URL}/forecast/${process.env.API_KEY}/${latitude},${longitude}`
   );
+
+  if (!response.ok) {
+    return { message: response.statusText, code: response.status };
+  }
   const data: WeatherResponse = await response.json();
 
   return data;
 };
+// ${process.env.API_KEY}/
