@@ -4602,7 +4602,7 @@ See https://reactjs.org/link/invalid-hook-call for tips about how to debug and f
         }
         return dispatcher.useContext(Context);
       }
-      function useState17(initialState) {
+      function useState18(initialState) {
         var dispatcher = resolveDispatcher();
         return dispatcher.useState(initialState);
       }
@@ -5143,7 +5143,7 @@ Check the top-level render call using <` + parentName + ">.");
         toArray,
         only: onlyChild
       };
-      exports.Children = Children8, exports.Component = Component2, exports.Fragment = REACT_FRAGMENT_TYPE, exports.Profiler = REACT_PROFILER_TYPE, exports.PureComponent = PureComponent, exports.StrictMode = REACT_STRICT_MODE_TYPE, exports.Suspense = REACT_SUSPENSE_TYPE, exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals, exports.cloneElement = cloneElement$1, exports.createContext = createContext14, exports.createElement = createElement$1, exports.createFactory = createFactory, exports.createRef = createRef, exports.forwardRef = forwardRef15, exports.isValidElement = isValidElement2, exports.lazy = lazy, exports.memo = memo, exports.startTransition = startTransition, exports.unstable_act = act, exports.useCallback = useCallback8, exports.useContext = useContext17, exports.useDebugValue = useDebugValue, exports.useDeferredValue = useDeferredValue, exports.useEffect = useEffect16, exports.useId = useId9, exports.useImperativeHandle = useImperativeHandle2, exports.useInsertionEffect = useInsertionEffect2, exports.useLayoutEffect = useLayoutEffect5, exports.useMemo = useMemo15, exports.useReducer = useReducer2, exports.useRef = useRef12, exports.useState = useState17, exports.useSyncExternalStore = useSyncExternalStore, exports.useTransition = useTransition2, exports.version = ReactVersion, typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ < "u" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop == "function" && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(new Error());
+      exports.Children = Children8, exports.Component = Component2, exports.Fragment = REACT_FRAGMENT_TYPE, exports.Profiler = REACT_PROFILER_TYPE, exports.PureComponent = PureComponent, exports.StrictMode = REACT_STRICT_MODE_TYPE, exports.Suspense = REACT_SUSPENSE_TYPE, exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals, exports.cloneElement = cloneElement$1, exports.createContext = createContext14, exports.createElement = createElement$1, exports.createFactory = createFactory, exports.createRef = createRef, exports.forwardRef = forwardRef15, exports.isValidElement = isValidElement2, exports.lazy = lazy, exports.memo = memo, exports.startTransition = startTransition, exports.unstable_act = act, exports.useCallback = useCallback8, exports.useContext = useContext17, exports.useDebugValue = useDebugValue, exports.useDeferredValue = useDeferredValue, exports.useEffect = useEffect16, exports.useId = useId9, exports.useImperativeHandle = useImperativeHandle2, exports.useInsertionEffect = useInsertionEffect2, exports.useLayoutEffect = useLayoutEffect5, exports.useMemo = useMemo15, exports.useReducer = useReducer2, exports.useRef = useRef12, exports.useState = useState18, exports.useSyncExternalStore = useSyncExternalStore, exports.useTransition = useTransition2, exports.version = ReactVersion, typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ < "u" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop == "function" && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(new Error());
     })();
   }
 });
@@ -9479,7 +9479,7 @@ Incoming: %s`, currentHookNameInDev, "[" + nextDeps.join(", ") + "]", "[" + prev
       function basicStateReducer(state, action) {
         return typeof action == "function" ? action(state) : action;
       }
-      function useState17(initialState) {
+      function useState18(initialState) {
         return currentHookNameInDev = "useState", useReducer2(
           basicStateReducer,
           // useReducer has a special case to support lazy useState initializers
@@ -9599,7 +9599,7 @@ Incoming: %s`, currentHookNameInDev, "[" + nextDeps.join(", ") + "]", "[" + prev
         useMemo: useMemo15,
         useReducer: useReducer2,
         useRef: useRef12,
-        useState: useState17,
+        useState: useState18,
         useInsertionEffect: noop,
         useLayoutEffect: useLayoutEffect5,
         useCallback: useCallback8,
@@ -13031,7 +13031,7 @@ Incoming: %s`, currentHookNameInDev, "[" + nextDeps.join(", ") + "]", "[" + prev
       function basicStateReducer(state, action) {
         return typeof action == "function" ? action(state) : action;
       }
-      function useState17(initialState) {
+      function useState18(initialState) {
         return currentHookNameInDev = "useState", useReducer2(
           basicStateReducer,
           // useReducer has a special case to support lazy useState initializers
@@ -13151,7 +13151,7 @@ Incoming: %s`, currentHookNameInDev, "[" + nextDeps.join(", ") + "]", "[" + prev
         useMemo: useMemo15,
         useReducer: useReducer2,
         useRef: useRef12,
-        useState: useState17,
+        useState: useState18,
         useInsertionEffect: noop,
         useLayoutEffect: useLayoutEffect5,
         useCallback: useCallback8,
@@ -30379,7 +30379,7 @@ function useSWEffect() {
 }
 
 // app/styles/tailwind.css
-var tailwind_default = "/build/_assets/tailwind-BSXYERKK.css";
+var tailwind_default = "/build/_assets/tailwind-R27HMXZS.css";
 
 // app/root.tsx
 var import_jsx_dev_runtime2 = __toESM(require_jsx_dev_runtime()), links = () => [{ rel: "stylesheet", href: tailwind_default }];
@@ -37625,37 +37625,39 @@ var import_jsx_dev_runtime6 = __toESM(require_jsx_dev_runtime()), WeatherRadarMa
 
 // app/components/WeatherRadarModal.tsx
 var import_jsx_dev_runtime7 = __toESM(require_jsx_dev_runtime()), WeatherRadarModal = () => {
-  let [searchParams] = useSearchParams(), zipcode = searchParams.get("zipcode"), navigate = useNavigate(), location = useLocation(), isModalOpen = (0, import_react56.useMemo)(() => location.hash.includes("showModal"), [location.hash]);
+  let [searchParams] = useSearchParams(), zipcode = searchParams.get("zipcode"), [isClosing, setIsClosing] = (0, import_react56.useState)(!1), navigate = useNavigate(), location = useLocation(), isModalOpen = (0, import_react56.useMemo)(() => location.hash.includes("showModal"), [location.hash]);
   return /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(import_react56.Suspense, { fallback: /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(Spinner, {}, void 0, !1, {
     fileName: "app/components/WeatherRadarModal.tsx",
-    lineNumber: 14,
+    lineNumber: 15,
     columnNumber: 25
   }, this), children: /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(
     Modal,
     {
       size: "7xl",
-      onClose: () => navigate(
-        {
-          pathname: location.pathname,
-          search: zipcode ? `zipcode=${searchParams.get("zipcode")}` : void 0
-        },
-        { replace: !0 }
-      ),
-      show: isModalOpen,
+      onClose: () => {
+        setIsClosing(!0), navigate(
+          {
+            pathname: location.pathname,
+            search: zipcode ? `zipcode=${searchParams.get("zipcode")}` : void 0
+          },
+          { replace: !0 }
+        );
+      },
+      show: isModalOpen && !isClosing,
       dismissible: !0,
       children: [
         /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(Modal.Header, { children: "Weather Radar" }, void 0, !1, {
           fileName: "app/components/WeatherRadarModal.tsx",
-          lineNumber: 29,
+          lineNumber: 31,
           columnNumber: 9
         }, this),
         /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(Modal.Body, { children: /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(WeatherRadarMap, {}, void 0, !1, {
           fileName: "app/components/WeatherRadarModal.tsx",
-          lineNumber: 31,
+          lineNumber: 33,
           columnNumber: 11
         }, this) }, void 0, !1, {
           fileName: "app/components/WeatherRadarModal.tsx",
-          lineNumber: 30,
+          lineNumber: 32,
           columnNumber: 9
         }, this)
       ]
@@ -37664,13 +37666,13 @@ var import_jsx_dev_runtime7 = __toESM(require_jsx_dev_runtime()), WeatherRadarMo
     !0,
     {
       fileName: "app/components/WeatherRadarModal.tsx",
-      lineNumber: 15,
+      lineNumber: 16,
       columnNumber: 7
     },
     this
   ) }, void 0, !1, {
     fileName: "app/components/WeatherRadarModal.tsx",
-    lineNumber: 14,
+    lineNumber: 15,
     columnNumber: 5
   }, this);
 }, WeatherRadarModal_default = WeatherRadarModal;
@@ -37868,7 +37870,7 @@ var ErrorBoundary2 = () => {
 };
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-TNRDYHI6.js", imports: ["/build/_shared/chunk-6A4RDC2Q.js", "/build/_shared/chunk-TT2FF3IL.js", "/build/_shared/chunk-IU43IUTG.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-CCCEVMXY.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/_landing": { id: "routes/_landing", parentId: "root", path: void 0, index: void 0, caseSensitive: void 0, module: "/build/routes/_landing-TU33RJDN.js", imports: ["/build/_shared/chunk-2XWJ6JMH.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !0 }, "routes/_landing._index": { id: "routes/_landing._index", parentId: "routes/_landing", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_landing._index-3I4AQCYY.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !0 }, "routes/resources.manifest[.]webmanifest": { id: "routes/resources.manifest[.]webmanifest", parentId: "root", path: "resources/manifest.webmanifest", index: void 0, caseSensitive: void 0, module: "/build/routes/resources.manifest[.]webmanifest-GFT35XB4.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, version: "8da1b768", hmr: void 0, url: "/build/manifest-8DA1B768.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-TNRDYHI6.js", imports: ["/build/_shared/chunk-6A4RDC2Q.js", "/build/_shared/chunk-TT2FF3IL.js", "/build/_shared/chunk-IU43IUTG.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-BT3TVCXA.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/_landing": { id: "routes/_landing", parentId: "root", path: void 0, index: void 0, caseSensitive: void 0, module: "/build/routes/_landing-Q7QILART.js", imports: ["/build/_shared/chunk-2XWJ6JMH.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !0 }, "routes/_landing._index": { id: "routes/_landing._index", parentId: "routes/_landing", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_landing._index-3I4AQCYY.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !0 }, "routes/resources.manifest[.]webmanifest": { id: "routes/resources.manifest[.]webmanifest", parentId: "root", path: "resources/manifest.webmanifest", index: void 0, caseSensitive: void 0, module: "/build/routes/resources.manifest[.]webmanifest-GFT35XB4.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, version: "c8d7151c", hmr: void 0, url: "/build/manifest-C8D7151C.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var assetsBuildDirectory = "public/build", future = { unstable_dev: !1, unstable_postcss: !1, unstable_tailwind: !1, v2_errorBoundary: !0, v2_headers: !0, v2_meta: !0, v2_normalizeFormMethod: !0, v2_routeConvention: !0 }, publicPath = "/build/", entry = { module: entry_server_react_stream_exports }, routes = {
