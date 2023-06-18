@@ -5,3 +5,5 @@ node_modules
 /public/build
 .env
 dist/
+public/entry.worker.js
+.dev.vars

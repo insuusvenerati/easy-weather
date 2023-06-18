@@ -122,3 +122,15 @@ export type MinutelyDatum = {
   precipIntensityError: number;
   precipType: string;
 };
+
+export type IndexLoaderData = {
+  weather: WeatherResponse | undefined;
+  city: string | undefined;
+  coords: {
+    x: number;
+    y: number;
+    lat: number;
+    lon: number;
+  };
+  error: string | undefined;
+};

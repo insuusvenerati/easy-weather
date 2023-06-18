@@ -1,15 +1,11 @@
-import { Card } from "flowbite-react";
-import { getIconUrl } from "~/utils";
+import { Card, Spinner } from "flowbite-react";
+import { Suspense } from "react";
+import type { DailyDatum } from "~/types/weather";
+import { getMoonphaseIconUrl, getWeatherIconUrl } from "~/utils";
 
 type CardProps = {
-  temperature: number;
-  icon: string;
+  day: DailyDatum;
   city: string | undefined;
-  description: string;
-  humidity: number;
-  windSpeed: number;
-  sunrise: number;
-  sunset: number;
 };
 
 const formatTime = (time: number) => {
@@ -20,47 +16,60 @@ const formatTime = (time: number) => {
   return { time: `${hours}:${minutes < 10 ? "0" + minutes : minutes}`, dayOfWeek };
 };
 
-export const WeatherCard = ({
-  temperature,
-  icon,
-  city,
-  description,
-  humidity,
-  windSpeed,
-  sunrise,
-  sunset,
-}: CardProps) => {
+export const WeatherCard = ({ day, city }: CardProps) => {
+  const {
+    icon,
+    sunriseTime,
+    sunsetTime,
+    windSpeed,
+    summary,
+    temperatureMax,
+    temperatureMin,
+    humidity,
+    moonPhase,
+  } = day;
   return (
-    <Card>
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex flex-col gap-2">
-          {city && <h2 className="text-lg font-bold">{city}</h2>}
-          <h2 className="text-lg font-medium">{formatTime(sunrise).dayOfWeek}</h2>
+    <Suspense fallback={<Spinner />}>
+      <Card>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col gap-2">
+            {city && <h2 className="text-lg font-bold">{city}</h2>}
+            <h2 className="text-lg font-medium">{formatTime(sunriseTime).dayOfWeek}</h2>
+          </div>
+          <img src={getWeatherIconUrl(icon)} alt={summary} className="w-36 h-36" />
         </div>
-        <img src={getIconUrl(icon)} alt={description} className="w-10 h-10" />
-      </div>
-      <div className="flex items-center justify-between">
-        <p className="text-3xl font-bold">{temperature}&deg;F</p>
-        <p className="text-gray-500">{description}</p>
-      </div>
-      <div className="flex items-center justify-between mt-4">
-        <div>
-          <p className="text-gray-500">Humidity</p>
-          <p className="text-lg font-medium">{(humidity * 100).toPrecision(2)}%</p>
+        <div className="flex items-center justify-start gap-4">
+          <p className="text-3xl font-bold">{temperatureMax}&deg;F</p>
+          {"/"}
+          <p className="text-3xl">{temperatureMin}&deg;F</p>
+          {/* <p className="text-gray-500">{summary}</p> */}
         </div>
-        <div>
-          <p className="text-gray-500">Wind Speed</p>
-          <p className="text-lg font-medium">{windSpeed} m/s</p>
+        <div className="flex items-center justify-between mt-4">
+          <div>
+            <p className="text-gray-500">Humidity</p>
+            <p className="text-lg font-medium">{(humidity * 100).toPrecision(2)}%</p>
+          </div>
+          <div>
+            <p className="text-gray-500">Wind Speed</p>
+            <p className="text-lg font-medium">{windSpeed} m/s</p>
+          </div>
+          <div>
+            <p className="text-gray-500">Sunrise</p>
+            <p className="text-lg font-medium">{formatTime(sunriseTime).time}</p>
+          </div>
+          <div>
+            <p className="text-gray-500">Sunset</p>
+            <p className="text-lg font-medium">{formatTime(sunsetTime).time}</p>
+          </div>
+          <div>
+            <img
+              className="w-10 h-10"
+              src={getMoonphaseIconUrl(moonPhase)}
+              alt={moonPhase.toString()}
+            />
+          </div>
         </div>
-        <div>
-          <p className="text-gray-500">Sunrise</p>
-          <p className="text-lg font-medium">{formatTime(sunrise).time}</p>
-        </div>
-        <div>
-          <p className="text-gray-500">Sunset</p>
-          <p className="text-lg font-medium">{formatTime(sunset).time}</p>
-        </div>
-      </div>
-    </Card>
+      </Card>
+    </Suspense>
   );
 };

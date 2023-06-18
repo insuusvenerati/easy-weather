@@ -5,3 +5,8 @@
 * {
   color: white;
 }
+
+a.leaflet-control-zoom-in > span,
+a.leaflet-control-zoom-out > span {
+  color: black;
+}
