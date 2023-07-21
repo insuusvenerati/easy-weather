@@ -65,19 +65,6 @@ export const loader = async ({ request, context }: LoaderArgs) => {
     });
   }
 
-  const { latitude, longitude } = locationData.places[0];
-
-  // const weather = await getWeather(null, { latitude, longitude });
-
-  // if (!weather.success) {
-  //   return typedjson({
-  //     weather: undefined,
-  //     city: undefined,
-  //     coords: undefined,
-  //     error: weather.errors,
-  //   });
-  // }
-
   const weather = await getWeather(locationData, context);
 
   if (typeof weather === "string") {
@@ -116,7 +103,7 @@ export default function Layout() {
     <div className="container mx-auto gap-9 px-2 mb-10">
       <div className="flex flex-col md:flex-row gap-4 mt-8 justify-between items-center mb-8">
         <Link to="/" className="text-3xl font-bold">
-          ⛅ Easy Weather
+          Easy Weather
         </Link>
         {isLoading && !isError ? (
           <Spinner />
