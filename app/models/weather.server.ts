@@ -27,5 +27,22 @@ export const getWeather = async (location: LocationData, context: AppLoadContext
   }
   const data: WeatherResponse = await response.json();
 
-  return data;
+  const reducedWeatherData = {
+    icon: data.currently.icon,
+    temperature: `${Math.round(data.currently.temperature)} F`,
+    daily: data.daily.data.map((day) => ({
+      icon: day.icon,
+      sunriseTime: day.sunriseTime,
+      sunsetTime: day.sunsetTime,
+      windSpeed: day.windSpeed,
+      summary: day.summary,
+      temperatureMax: day.temperatureMax,
+      temperatureMin: day.temperatureMin,
+      humidity: day.humidity,
+      moonPhase: day.moonPhase,
+      time: day.time,
+    })),
+  };
+
+  return reducedWeatherData;
 };

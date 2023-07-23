@@ -7,3 +7,5 @@ node_modules
 dist/
 public/entry.worker.js
 .dev.vars
+/functions/\[\[path\]\].js
+/functions/\[\[path\]\].js.map

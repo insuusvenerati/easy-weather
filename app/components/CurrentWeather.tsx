@@ -1,9 +1,9 @@
 import type { HTMLAttributes } from "react";
-import { getWeatherIconUrl } from "~/utils";
 import { twMerge } from "tailwind-merge";
+import { getWeatherIconUrl } from "~/utils";
 
 type CurrentWeatherProps = {
-  temperature: number | undefined;
+  temperature: string | undefined;
   icon: string | undefined;
   city: string | undefined;
 } & HTMLAttributes<HTMLDivElement>;
@@ -20,7 +20,7 @@ export const CurrentWeather = ({ temperature, icon, city, ...rest }: CurrentWeat
       <h2 className="text-sm font-semibold">{city}</h2>
       <div className="flex items-center gap-2">
         <img src={getWeatherIconUrl(icon)} alt="overcast clouds" className="w-10 h-10" />
-        <div className="font-medium text-sm">{temperature}°F</div>
+        <div className="font-medium text-sm">{temperature}</div>
       </div>
     </div>
   );

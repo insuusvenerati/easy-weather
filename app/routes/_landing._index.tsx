@@ -1,21 +1,48 @@
-import type { LoaderArgs } from "@remix-run/cloudflare";
+import { defer, type LoaderArgs, type V2_MetaFunction } from "@remix-run/cloudflare";
 import {
+  Await,
   Form,
   Link,
   isRouteErrorResponse,
+  useLoaderData,
   useNavigate,
   useNavigation,
   useRouteError,
   useSearchParams,
 } from "@remix-run/react";
 import { Button, Label, Spinner, TextInput } from "flowbite-react";
-import { useRef } from "react";
+import { Suspense, useRef } from "react";
 import { typedjson, useTypedLoaderData } from "remix-typedjson";
 import { CurrentWeather } from "~/components/CurrentWeather";
 import { WeatherCard } from "~/components/WeatherCard";
 import WeatherRadarModal from "~/components/WeatherRadarModal";
 import { getLocation, getWeather } from "~/models/weather.server";
 import { latLonToXY } from "~/utils";
+
+export const meta: V2_MetaFunction = () => {
+  return [
+    { title: "Easy Weather" },
+    { name: "description", content: "Get the weather forecast for your location but easily" },
+    { name: "og:title", content: "Easy Weather" },
+    { name: "og:description", content: "Get the weather forecast for your location but easily" },
+    {
+      name: "og:image",
+      content: "https://em-content.zobj.net/thumbs/160/microsoft/319/sun-behind-cloud_26c5.png",
+    },
+    { name: "og:type", content: "website" },
+    { name: "og:url", content: "https://easy-weather.fly.dev/" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: "Easy Weather" },
+    {
+      name: "twitter:description",
+      content: "Get the weather forecast for your location but easily",
+    },
+    {
+      name: "twitter:image",
+      content: "https://em-content.zobj.net/thumbs/160/microsoft/319/sun-behind-cloud_26c5.png",
+    },
+  ];
+};
 
 export const loader = async ({ request, context }: LoaderArgs) => {
   const url = new URL(request.url);
@@ -41,7 +68,7 @@ export const loader = async ({ request, context }: LoaderArgs) => {
     });
   }
 
-  const weather = await getWeather(locationData, context);
+  const weather = getWeather(locationData, context);
 
   if (typeof weather === "string") {
     return typedjson({
@@ -52,20 +79,14 @@ export const loader = async ({ request, context }: LoaderArgs) => {
     });
   }
 
-  const reducedWeatherData = {
-    icon: weather.currently.icon,
-    temperature: weather.currently.temperature,
-    daily: weather.daily.data,
-  };
-
   const coords = {
     lat: Number(locationData.places[0].latitude),
     lon: Number(locationData.places[0].longitude),
   };
   const convertedCoords = latLonToXY(coords.lat, coords.lon, 6);
 
-  return typedjson({
-    weather: reducedWeatherData,
+  return defer({
+    weather: weather,
     city: locationData.places[0]["place name"],
     coords: { ...coords, ...convertedCoords },
     error: undefined,
@@ -76,7 +97,7 @@ const Index = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const zipcode = searchParams.get("zipcode");
-  const data = useTypedLoaderData<typeof loader>();
+  const data = useLoaderData<typeof loader>();
   const navigation = useNavigation();
   const isLoading = navigation.state !== "idle";
   const isError = data !== null && "error" in data;
@@ -135,10 +156,17 @@ const Index = () => {
         </Form>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {data &&
-            data.weather?.daily.map((day) => (
-              <WeatherCard key={day.time} city={data.city} day={day} />
-            ))}
+          {data.weather && (
+            <Suspense>
+              <Await resolve={data.weather}>
+                {(weather) =>
+                  weather.daily.map((day) => (
+                    <WeatherCard key={day.time} city={data.city} day={day} />
+                  ))
+                }
+              </Await>
+            </Suspense>
+          )}
         </div>
       </div>
     </>
@@ -171,7 +199,7 @@ export const ErrorBoundary = () => {
     );
   } else if (error instanceof Error) {
     return (
-      <div className="flex flex-col gap-4">
+      <div className="container mx-auto flex flex-col gap-4">
         <h1 className="text-xl font-bold">
           Oof! Sorry about that. There's a problem with the app. I'll get on it as soon as possible
         </h1>
