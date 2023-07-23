@@ -1,17 +1,15 @@
-import { defer, type LoaderArgs, type V2_MetaFunction } from "@remix-run/cloudflare";
+import { type LoaderArgs, type V2_MetaFunction } from "@remix-run/cloudflare";
 import {
-  Await,
   Form,
-  Link,
   isRouteErrorResponse,
-  useLoaderData,
+  Link,
   useNavigate,
   useNavigation,
   useRouteError,
   useSearchParams,
 } from "@remix-run/react";
 import { Button, Label, Spinner, TextInput } from "flowbite-react";
-import { Suspense, useRef } from "react";
+import { useRef } from "react";
 import { typedjson, useTypedLoaderData } from "remix-typedjson";
 import { CurrentWeather } from "~/components/CurrentWeather";
 import { WeatherCard } from "~/components/WeatherCard";
@@ -21,6 +19,9 @@ import { latLonToXY } from "~/utils";
 
 export const meta: V2_MetaFunction = () => {
   return [
+    { name: "charSet", content: "utf-8" },
+    { name: "viewport", content: "width=device-width, initial-scale=1" },
+    { name: "msapplication-TileColor", content: "#da532c" },
     { title: "Easy Weather" },
     { name: "description", content: "Get the weather forecast for your location but easily" },
     { name: "og:title", content: "Easy Weather" },
@@ -68,7 +69,7 @@ export const loader = async ({ request, context }: LoaderArgs) => {
     });
   }
 
-  const weather = getWeather(locationData, context);
+  const weather = await getWeather(locationData, context);
 
   if (typeof weather === "string") {
     return typedjson({
@@ -85,7 +86,7 @@ export const loader = async ({ request, context }: LoaderArgs) => {
   };
   const convertedCoords = latLonToXY(coords.lat, coords.lon, 6);
 
-  return defer({
+  return typedjson({
     weather: weather,
     city: locationData.places[0]["place name"],
     coords: { ...coords, ...convertedCoords },
@@ -97,15 +98,16 @@ const Index = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const zipcode = searchParams.get("zipcode");
-  const data = useLoaderData<typeof loader>();
+  const data = useTypedLoaderData<typeof loader>();
   const navigation = useNavigation();
   const isLoading = navigation.state !== "idle";
   const isError = data !== null && "error" in data;
 
   return (
     <>
+      {data.coords && <WeatherRadarModal />}
       <div className="container mx-auto gap-9 px-2 mb-10">
-        <div className="flex flex-col md:flex-row gap-4 mt-8 justify-between items-center mb-8">
+        <div className="flex flex-col lg:flex-row gap-4 mt-8 justify-between items-center mb-8">
           <Link to="/" className="text-3xl font-bold">
             Easy Weather
           </Link>
@@ -125,7 +127,7 @@ const Index = () => {
                     {
                       pathname: location.pathname,
                       hash: "showModal",
-                      search: `zipcode=${searchParams.get("zipcode")}`,
+                      search: `zipcode=${zipcode}`,
                     },
                     { replace: true }
                   )
@@ -134,9 +136,7 @@ const Index = () => {
             </div>
           )}
         </div>
-      </div>
-      {data.coords && <WeatherRadarModal />}
-      <div className="container mx-auto gap-9 px-2 mb-10">
+
         <Form className="mt-8 mb-8 flex flex-col gap-4" action="/?index" method="GET">
           <Label htmlFor="zipcode">Zip Code</Label>
 
@@ -155,18 +155,10 @@ const Index = () => {
           </Button>
         </Form>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {data.weather && (
-            <Suspense>
-              <Await resolve={data.weather}>
-                {(weather) =>
-                  weather.daily.map((day) => (
-                    <WeatherCard key={day.time} city={data.city} day={day} />
-                  ))
-                }
-              </Await>
-            </Suspense>
-          )}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          {data.weather?.daily.map((day) => (
+            <WeatherCard key={day.time} city={data.city} day={day} />
+          ))}
         </div>
       </div>
     </>

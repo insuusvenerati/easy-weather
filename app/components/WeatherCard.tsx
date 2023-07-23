@@ -1,9 +1,21 @@
 import { Card } from "flowbite-react";
-import type { DailyDatum } from "~/types/weather";
 import { getMoonphaseIconUrl, getWeatherIconUrl } from "~/utils";
 
+type Day = {
+  icon: string;
+  sunriseTime: number;
+  sunsetTime: number;
+  windSpeed: number;
+  summary: string;
+  temperatureMax: number;
+  temperatureMin: number;
+  humidity: number;
+  moonPhase: number;
+  time: number;
+};
+
 type CardProps = {
-  day: DailyDatum;
+  day: Day;
   city: string | undefined;
 };
 
