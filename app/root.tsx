@@ -1,11 +1,18 @@
-import { useSWEffect } from "~/utils/client/sw-hook";
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
-import tailwindStyles from "./styles/tailwind.css";
 import type { LinksFunction, V2_MetaFunction } from "@remix-run/cloudflare";
-import favicon32 from "~/assets/favicon-32x32.png";
-import favicon16 from "~/assets/favicon-16x16.png";
-import safariPinnedTab from "~/assets/safari-pinned-tab.svg";
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 import appleTouchIcon from "~/assets/apple-touch-icon.png";
+import favicon16 from "~/assets/favicon-16x16.png";
+import favicon32 from "~/assets/favicon-32x32.png";
+import safariPinnedTab from "~/assets/safari-pinned-tab.svg";
+import { useSWEffect } from "~/utils/client/sw-hook";
+import tailwindStyles from "./styles/tailwind.css";
+import rdtStylesheet from "remix-development-tools/stylesheet.css";
+import { lazy } from "react";
+
+const RemixDevTools =
+  process.env.NODE_ENV === "development"
+    ? lazy(() => import("remix-development-tools"))
+    : undefined;
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStyles },
@@ -20,6 +27,7 @@ export const links: LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap",
   },
+  { rel: "stylesheet", href: rdtStylesheet },
 ];
 
 export const meta: V2_MetaFunction = () => [
@@ -41,6 +49,7 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        {RemixDevTools && <RemixDevTools />}
       </body>
     </html>
   );

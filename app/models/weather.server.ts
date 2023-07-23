@@ -19,7 +19,7 @@ export const getWeather = async (location: LocationData, context: AppLoadContext
   const { latitude, longitude } = location.places[0];
 
   const response = await fetch(
-    `${context.API_URL}/forecast/${context.API_KEY}/${latitude},${longitude}`
+    `${context.env.API_URL}/forecast/${context.env.API_KEY}/${latitude},${longitude}`
   );
 
   if (!response.ok) {

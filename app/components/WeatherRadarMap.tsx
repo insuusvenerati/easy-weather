@@ -1,5 +1,5 @@
 import { useTypedLoaderData } from "remix-typedjson";
-import type { loader } from "~/routes/_landing";
+import type { loader } from "~/routes/_landing._index";
 
 export const WeatherRadarMap = () => {
   const { coords } = useTypedLoaderData<typeof loader>();
