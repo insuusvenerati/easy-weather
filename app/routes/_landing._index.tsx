@@ -20,7 +20,7 @@ import { latLonToXY } from "~/utils";
 export const meta: V2_MetaFunction = () => {
   return [
     { name: "charSet", content: "utf-8" },
-    { name: "viewport", content: "width=device-width, initial-scale=1" },
+    { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1" },
     { name: "msapplication-TileColor", content: "#da532c" },
     { title: "Easy Weather" },
     { name: "description", content: "Get the weather forecast for your location but easily" },
